@@ -68,8 +68,8 @@ module.exports = router;
 
 const addRoute = (RESTfulOperator, route) => {
     let newRoute = `
-    router.${RESTfulOperator}('/${route}', (res, req) => {
-        res.sendStatus(200)
+router.${RESTfulOperator}('/${route}', (res, req) => {
+    res.sendStatus(200)
 });
 `
 return newRoute;
@@ -113,21 +113,37 @@ const makeNewFile = (isNewFile, pathToFile, newFileText) => {
         })
     }
 }
+let file = '';
+fileEnd += makeFileEnd();
 fs.stat(filePath, (err, stats) => {
     if(err) {
         console.log(err);
         newFile = true;
         fileHead += makeFileHead();
-        fileEnd += makeFileEnd();
         const fileText = fileHead + fileBody + fileEnd;
         console.log('file does not exist', newFile, filePath, fileText);
         return makeNewFile(newFile, filePath, fileText);
     }
     if(stats.isFile()) {
-        return console.log('file exists');
-    } else {
-        return console.log('other');
-    }
+        fs.readFile(filePath, "utf-8", (err, res) => {
+            if(err) {
+                throw new Error(err);
+            }
+            else {
+                let file = res;
+                let temp = file.split(`
+router.get('*', (req, res) => {
+    res.sendStatus(404);
 });
-
-module.exports
+module.exports = router;`)[0];
+                let fileWithNewRoutes = temp + fileBody + fileEnd;
+                fs.writeFile(filePath, fileWithNewRoutes, (err, res) =>{
+                    if(err) console.log(err);
+                    else console.log(res);
+                })
+            }
+            console.log(err,res);
+        })            
+    }
+        
+});
