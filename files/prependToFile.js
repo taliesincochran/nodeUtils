@@ -1,12 +1,14 @@
 const fs = require('fs');
 
 const prependToFile = (filepath, fileText) => {
-    fs.stat(pathName, (err, stats) => {
+    let callBackFalse = err => {
         if (err) {
             console.log(err);
             newFile = true;
             return makeNewFile(newFile, pathName, fileText);
         }
+    }
+    const callBackTrue = stats => {
         if (stats.isFile()) {
             fs.readFile(pathName, "utf-8", (err, res) => {
                 if (err) {
@@ -22,6 +24,8 @@ const prependToFile = (filepath, fileText) => {
                 console.log(err, res);
             })
         }
-    })
+
+    }
+    isNewFile(filepath, callBackTrue, callBackFalse);
 };
 module.exports = prependToFile;

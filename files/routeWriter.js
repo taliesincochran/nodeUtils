@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const utils = require('./index')
-const {isNewFile, makeNewFile, addExtension, removeCharacter, processError, addRoute } = utils;
+const utils = require('../')
+const {isNewFile, makeNewFile, addExtension, removeCharacter, processError, addRoute, restfulMethods } = utils;
 
 const routesArray = process.argv.slice(3) || [];
 let pathToFile = addExtension(process.argv[2], 'js');
@@ -10,33 +10,6 @@ let pathToFile = addExtension(process.argv[2], 'js');
 //     pathToFile += '.js';
 // }
 const routeWriter = (filepath, routes) => {
-    // let isNew = isNewFile(filepath);
-    // const restFulMethods = [
-    //     'checkout',
-    //     'copy',
-    //     'delete',
-    //     'get',
-    //     'head',
-    //     'lock',
-    //     'merge',
-    //     'mkactivity',
-    //     'mkcol',
-    //     'move',
-    //     'notify',
-    //     'options',
-    //     'patch',
-    //     'post',
-    //     'purge',
-    //     'put',
-    //     'report',
-    //     'search',
-    //     'subscribe',
-    //     'trace',
-    //     'unlock',
-    //     'unsubscribe'
-    // ]
-    
-    // let newFile = false;
     let newFile = isNewFile(filepath);
     let fileHead = '';
     let fileBody = '';
@@ -88,14 +61,6 @@ module.exports = router;
         return tempString;
     }
     
-    // str => {
-    //     let tempString = str.split(":").join('').toLowerCase();
-    //     if(tempString[tempString.length - 1] === '/') {
-    //         tempString = tempString.slice(0, tempString.length - 1);
-    //     }
-    //     return tempString;
-    // }
-    
     // Go through the array of routes and make one for every pair of two RESTful operator and route
     const callBack = (res, req) => {
         res.sendStatus(200);
@@ -106,22 +71,10 @@ module.exports = router;
             if(route.split('').indexOf(':') !== -1) {
                 route = removeColonSlash(route);
             }
-            addRoute('router', argument, route, callBack);
+            fileBody += addRoute('router', argument, route, callBack);
         }
     })
-    // const makeNewFile = (isNewFile, pathToFile, newFileText) => {
-    //     console.log('makeNewFile', pathToFile, newFileText) 
-    //     if(isNewFile) {
-    //         fs.writeFileSync(pathToFile, newFileText, (err) => {
-    //             if(err) {
-    //                 console.log('make file err', err);
-    //             }
-    //             else {
-    //                 console.log('sucess')
-    //             }
-    //         })
-    //     }
-    // }
+
     let file = '';
     fileEnd += makeFileEnd();
     if(!newFile) {
