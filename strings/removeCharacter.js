@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const processError = require('./processError');
+const {processError} = require('../');
 
 const removeCharacter = (str, character, position, toLowerCase) => {
     let positionTemp = position || undefined;

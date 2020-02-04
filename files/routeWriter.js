@@ -23,7 +23,7 @@ const routeWriter = (filepath, routes) => {
     };
     
     // Check the list of arguments to check if they conform 
-    if (routes.length % 2 !== 0) {
+    if (routes.length % 2 !== 0 || routes.length === 0) {
         argumentError();
     }
     

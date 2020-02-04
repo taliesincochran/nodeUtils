@@ -2,7 +2,7 @@
 const path = require('path');
 
 const addExtension = (pathToFile, extensionString) => {
-    let newPath = pathToFile;
+    let newPath = pathToFile || "";
     let tempArray = newPath.split('.')
     if(newPath.split('.')[1] !== extensionString) {
         newPath = path.join(__dirname, tempArray[0]);
