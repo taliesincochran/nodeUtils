@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+
+// The purpose of this file is to automate route writing for a future boilerplate.
 const fs = require('fs');
 const path = require('path');
 const utils = require('../')
@@ -42,17 +44,8 @@ router.get('*', (req, res) => {
 module.exports = router;
 `
         return newText;
-    }
-    
-//     const addRoute = (RESTfulOperator, route) => {
-//         let newRoute = `
-// router.${RESTfulOperator}('/${route}', (res, req) => {
-//     res.sendStatus(200)
-// });
-// `
-//         return newRoute;
-//     }
-    
+    }   
+
     //This funciton removes the :/ added to the route if the user enters something like /routeToThing instead of routeToThing
     const removeColonSlash = str => {
         let tempString = str;
@@ -62,9 +55,13 @@ module.exports = router;
     }
     
     // Go through the array of routes and make one for every pair of two RESTful operator and route
+
+    // This is a generic callback function, it functions as a placeholder
+    
     const callBack = (res, req) => {
         res.sendStatus(200);
     }
+
     routes.forEach((argument, i) => {
         if(i%2 === 0) {
             let route = routes[i + 1];
@@ -84,31 +81,14 @@ module.exports = router;
         console.log('file does not exist', newFile, filepath, fileText);
         makeNewFile(newFile, filepath, fileText);
     }
-    // fs.stat(filepath, (err, stats) => {
         else {
             let insertPoint = `
 router.get('*', (req, res) => {
     res.sendStatus(404);
 });
 module.exports = router;`;
-            insertInFile(filepath, insertPoint, fileBody);
-        //     fs.readFile(filepath, "utf-8", (err, res) => {
-        //         if(err) {
-        //             throw new Error(err);
-        //         }
-        //         else {
-        //             let file = res;
-        //             let temp = file.split(
-        //             let fileWithNewRoutes = temp + fileBody + fileEnd;
-        //             fs.writeFile(filepath, fileWithNewRoutes, (err, res) =>{
-        //                 if(err) console.log(err);
-        //                 else console.log(res);
-        //             })
-        //         }
-        //         console.log(err,res);
-        //     })            
-        }
-//     });
+        insertInFile(filepath, insertPoint, fileBody);           
+    }
 };
 routeWriter(pathToFile, routesArray);
 module.exports = routeWriter;
