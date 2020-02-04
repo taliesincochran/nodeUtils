@@ -9,3 +9,4 @@ module.exports.prependToFile = require('./files/prependToFile');
 module.exports.addExtension = require('./files/addExtension');
 module.exports.processError = require('./files/processError');
 module.exports.restfulMethods = require('./files/restfulMethods');
+module.exports.extractValueFromNestedObjects = require("./objects/extractValueFromNestedObject")
